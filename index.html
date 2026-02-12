@@ -12,8 +12,8 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            /* Cozy Bokeh Background - Not too pink, warm and aesthetic */
-            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1516589174184-c6858b16ecb0?q=80&w=2000&auto=format&fit=crop');
+            /* Cozy Bokeh Background */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1516589174184-c6858b16ecb0?q=80&w=2000&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             font-family: 'Quicksand', sans-serif; 
@@ -23,84 +23,67 @@
         }
 
         .container { 
-            background: rgba(255, 255, 255, 0.12); 
+            background: rgba(255, 255, 255, 0.15); 
             padding: 40px; 
             border-radius: 30px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            backdrop-filter: blur(18px); 
-            max-width: 450px; 
+            backdrop-filter: blur(15px); 
+            max-width: 420px; 
             width: 85%; 
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         h1 { 
             font-family: 'Dancing Script', cursive; 
-            font-size: 3.2rem; 
+            font-size: 3rem; 
             margin-bottom: 25px; 
-            color: #ffffff;
-            text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
-            animation: floating 3.5s ease-in-out infinite;
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.3);
+            animation: floating 3s ease-in-out infinite;
         }
 
-        /* Slideshow Container */
-        .slideshow-container {
-            width: 100%;
-            height: 280px;
-            position: relative;
-            margin-bottom: 25px;
-            overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        .main-img { 
+            width: 100%; 
+            max-width: 280px; 
+            border-radius: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
-        .slide {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            transition: opacity 1.2s ease-in-out;
-        }
-
-        .slide.active { opacity: 1; }
-
         .buttons { 
             display: flex; 
-            gap: 25px; 
+            gap: 20px; 
             justify-content: center; 
             align-items: center; 
             margin-top: 20px;
-            min-height: 80px;
+            min-height: 100px;
         }
-        
+
         button { 
-            padding: 14px 30px; 
+            padding: 12px 28px; 
             font-size: 1.1rem; 
             border: none; 
             border-radius: 50px; 
             cursor: pointer; 
             font-weight: bold; 
             transition: 0.3s; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         #yesBtn { background-color: #e63946; color: white; }
         #noBtn { background-color: #adb5bd; color: white; }
         
         .hidden { display: none; }
-        
+
         p {
             font-size: 1.3rem;
-            line-height: 1.5;
-            text-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+            font-weight: bold;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
         }
 
         @keyframes floating {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-10px); }
         }
     </style>
 </head>
@@ -117,13 +100,7 @@
 
     <div id="success-section" class="container hidden">
         <h1>Knew you would say yes! 🎉</h1>
-        
-        <div class="slideshow-container">
-            <img src="photo1.jpg" class="slide active">
-            <img src="photo2.jpg" class="slide">
-            <img src="photo3.jpg" class="slide">
-        </div>
-
+        <img class="main-img" src="photo.jpg" alt="Our Beautiful Memory">
         <p>You just made me the happiest person! 💞</p>
     </div>
 
@@ -136,50 +113,28 @@
         const noBtn = document.getElementById('noBtn');
         let yesFontSize = 1.1;
 
-        // Initialize YouTube Player with your ID
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '0',
                 width: '0',
                 videoId: 'cRzIqA83c8I', 
-                playerVars: { 'autoplay': 0, 'controls': 0, 'rel': 0 }
+                playerVars: { 'autoplay': 0, 'controls': 0 }
             });
         }
 
-        // Logic for "No" button growth
         noBtn.addEventListener('click', () => {
-            yesFontSize += 0.5;
+            yesFontSize += 0.4;
             yesBtn.style.fontSize = `${yesFontSize}rem`;
             yesBtn.style.padding = `${yesFontSize * 12}px ${yesFontSize * 25}px`;
             const phrases = ["Are you sure?", "Think again!", "Pwease?", "Really?", "Don't do this!"];
             noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
         });
 
-        // Logic for "Yes" click
         yesBtn.addEventListener('click', () => {
             document.getElementById('question-section').classList.add('hidden');
             document.getElementById('success-section').classList.remove('hidden');
-            
-            // Start the music
-            if (player && player.playVideo) { 
-                player.playVideo(); 
-            }
-            
-            // Start the photo slideshow
-            startSlideshow();
+            if (player && player.playVideo) { player.playVideo(); }
         });
-
-        function startSlideshow() {
-            const slides = document.querySelectorAll('.slide');
-            let currentSlide = 0;
-            if(slides.length > 1) {
-                setInterval(() => {
-                    slides[currentSlide].classList.remove('active');
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    slides[currentSlide].classList.add('active');
-                }, 3000); // Transitions every 3 seconds
-            }
-        }
     </script>
 </body>
 </html>
