@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will you be my Valentine? ❤️</title>
+    <style>
+        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(to bottom, #fbc2eb 0%, #a6c1ee 100%); font-family: 'Arial', sans-serif; color: #d63384; text-align: center; overflow: hidden; }
+        .container { background: rgba(255, 255, 255, 0.5); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); backdrop-filter: blur(10px); max-width: 400px; width: 90%; }
+        .main-img { width: 100%; max-width: 250px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .buttons { display: flex; gap: 20px; justify-content: center; align-items: center; height: 100px; }
+        button { padding: 12px 25px; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        #yesBtn { background-color: #28a745; color: white; }
+        #noBtn { background-color: #dc3545; color: white; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="question-section" class="container">
+        <h1>Will you be my Valentine? 💖</h1>
+        <img class="main-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyZzRyc3Zicm94bmR4ZzRyeG5yeG5yeG5yeG5yeG5yeG5yJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZEMmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif">
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div id="success-section" class="container hidden">
+        <h1>Knew you would say yes! 🎉</h1>
+        <img class="main-img" src="us.jpg" alt="Our Photo">
+        <p style="font-size: 1.2rem;">You just made me the happiest person! 💞</p>
+    </div>
+
+    <audio id="success-audio">
+        <source src="https://www.pagalworld.com.sb/files/download/id/2281" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const audio = document.getElementById('success-audio');
+        let yesFontSize = 1;
+
+        noBtn.addEventListener('click', () => {
+            yesFontSize += 0.4;
+            yesBtn.style.fontSize = `${yesFontSize}rem`;
+            yesBtn.style.padding = `${yesFontSize * 10}px ${yesFontSize * 20}px`;
+            noBtn.innerText = "Are you sure?";
+        });
+
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('question-section').classList.add('hidden');
+            document.getElementById('success-section').classList.remove('hidden');
+            audio.play();
+            document.body.style.background = "linear-gradient(to bottom, #ff9a9e 0%, #fecfef 100%)";
+        });
+    </script>
+</body>
+</html>
