@@ -4,14 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will you be my Valentine? ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(to bottom, #fbc2eb 0%, #a6c1ee 100%); font-family: 'Arial', sans-serif; color: #d63384; text-align: center; overflow: hidden; }
-        .container { background: rgba(255, 255, 255, 0.5); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); backdrop-filter: blur(10px); max-width: 400px; width: 90%; }
-        .main-img { width: 100%; max-width: 250px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .buttons { display: flex; gap: 20px; justify-content: center; align-items: center; height: 100px; }
-        button { padding: 12px 25px; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        body { 
+            margin: 0; 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: linear-gradient(to bottom, #fbc2eb 0%, #a6c1ee 100%); 
+            font-family: 'Quicksand', sans-serif; 
+            color: #d63384; 
+            text-align: center; 
+            overflow: hidden; 
+        }
+
+        .container { 
+            background: rgba(255, 255, 255, 0.4); 
+            padding: 40px; 
+            border-radius: 30px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            backdrop-filter: blur(15px); 
+            max-width: 450px; 
+            width: 90%; 
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Creative Font Styles */
+        h1 { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 3rem; 
+            margin-bottom: 20px; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        p {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #c9184a;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .main-img { 
+            width: 100%; 
+            max-width: 280px; 
+            border-radius: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+        }
+
+        .buttons { 
+            display: flex; 
+            gap: 20px; 
+            justify-content: center; 
+            align-items: center; 
+            margin-top: 20px;
+        }
+
+        button { 
+            padding: 12px 25px; 
+            font-size: 1.1rem; 
+            border: none; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: 0.3s; 
+        }
+
         #yesBtn { background-color: #28a745; color: white; }
         #noBtn { background-color: #dc3545; color: white; }
+        
+        button:hover { transform: scale(1.1); }
+
         .hidden { display: none; }
     </style>
 </head>
@@ -29,30 +99,39 @@
     <div id="success-section" class="container hidden">
         <h1>Knew you would say yes! 🎉</h1>
         <img class="main-img" src="us.jpg" alt="Our Photo">
-        <p style="font-size: 1.2rem;">You just made me the happiest person! 💞</p>
+        <p>You just made me the happiest person! 💞</p>
     </div>
 
-    <audio id="success-audio">
-        <source src="https://www.pagalworld.com.sb/files/download/id/2281" type="audio/mpeg">
-    </audio>
+    <div id="player" style="display:none"></div>
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
+        let player;
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const audio = document.getElementById('success-audio');
-        let yesFontSize = 1;
+        let yesFontSize = 1.1;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: 'cRzIqA83c8I', // <-- Put your YouTube ID here!
+                playerVars: { 'autoplay': 0, 'controls': 0 }
+            });
+        }
 
         noBtn.addEventListener('click', () => {
             yesFontSize += 0.4;
             yesBtn.style.fontSize = `${yesFontSize}rem`;
             yesBtn.style.padding = `${yesFontSize * 10}px ${yesFontSize * 20}px`;
-            noBtn.innerText = "Are you sure?";
+            const phrases = ["Are you sure?", "Think again!", "Pwease?", "Really?", "Don't do this!"];
+            noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
         });
 
         yesBtn.addEventListener('click', () => {
             document.getElementById('question-section').classList.add('hidden');
             document.getElementById('success-section').classList.remove('hidden');
-            audio.play();
+            if (player && player.playVideo) { player.playVideo(); }
             document.body.style.background = "linear-gradient(to bottom, #ff9a9e 0%, #fecfef 100%)";
         });
     </script>
